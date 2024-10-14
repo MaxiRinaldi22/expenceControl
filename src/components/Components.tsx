@@ -81,7 +81,7 @@ export function OpenButton({
 
 export function AddComponent({ children }: { children: React.ReactNode }) {
   return (
-    <section className="absolute  flex h-[92vh] w-full items-center justify-center bg-back-main-color p-6">
+    <section className="absolute flex h-[92vh] w-full items-center justify-center bg-back-main-color p-6">
       <div className="flex h-[510px] w-full flex-col items-center justify-between gap-5 rounded-xl bg-component-color px-2 pt-2">
         {children}
       </div>
@@ -107,8 +107,8 @@ export function AddInput({
   amount,
   setAmount,
 }: {
-  setAmount: React.Dispatch<React.SetStateAction<number>>;
-  amount: number;
+  setAmount: React.Dispatch<React.SetStateAction<number | string>>;
+  amount: number | string;
 }) {
   return (
     <div className="w-44">
@@ -210,7 +210,6 @@ export function SelectDate({
   );
 }
 
-
 export function HeaderTotalValue() {
   const { totalValue } = useBalanceContext();
 
@@ -223,14 +222,13 @@ export function HeaderTotalValue() {
     showResult = totalValue.toString();
   }
 
-  
   return (
     <section className="flex h-[8vh] flex-col items-center justify-center rounded-bl-full rounded-br-full bg-[#003566] px-20">
-    <div className="flex items-center gap-2">
-      <Coin />
-      <p className="text-sm font-semibold text-white">Total:</p> 
-    </div>
-    <h1 className="text-[20px] font-bold text-white">${showResult}</h1>
-  </section>
-  )
+      <div className="flex items-center gap-2">
+        <Coin />
+        <p className="text-sm font-semibold text-white">Total:</p>
+      </div>
+      <h1 className="text-[20px] font-bold text-white">${showResult}</h1>
+    </section>
+  );
 }

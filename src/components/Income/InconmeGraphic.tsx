@@ -20,7 +20,7 @@ function IncomeGraphic({
   const [bonus, setBonus] = useState(0);
 
   const totalInconmeValue = filteredInconmes.reduce(
-    (acc, curr) => acc + curr.amount!,
+    (acc, curr) => acc + Number(curr.amount),
     0,
   );
 
@@ -44,18 +44,22 @@ function IncomeGraphic({
       (inconme) => inconme.category === "Bonus",
     );
 
-    setBonus(bonusExpenses.reduce((acc, curr) => acc + curr.amount, 0));
+    setBonus(bonusExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0));
     setInvestemnt(
-      investmentExpenses.reduce((acc, curr) => acc + curr.amount, 0),
+      investmentExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0),
     );
-    setPaycheck(paycheckExpenses.reduce((acc, curr) => acc + curr.amount, 0));
-    setGift(giftExpenses.reduce((acc, curr) => acc + curr.amount, 0));
-    setInterest(interestExpenses.reduce((acc, curr) => acc + curr.amount, 0));
-    setOther(otherExpenses.reduce((acc, curr) => acc + curr.amount, 0));
+    setPaycheck(
+      paycheckExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0),
+    );
+    setGift(giftExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0));
+    setInterest(
+      interestExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0),
+    );
+    setOther(otherExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0));
   }, [filteredInconmes]);
 
   const withResultsData = {
-    labels: "",
+    labels: [],
     datasets: [
       {
         data: [paycheck, gift, interest, other, bonus, investemnt],

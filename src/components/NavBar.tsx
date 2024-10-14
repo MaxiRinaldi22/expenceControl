@@ -7,7 +7,7 @@ function NavBar() {
   };
 
   return (
-    <div className="absolute w-full bg-back-main-color ">
+    <div className="absolute w-full bg-back-main-color">
       <nav className="flex h-[8vh] items-center justify-center rounded-tl-full rounded-tr-full bg-[#003566]">
         <ul className="flex gap-10">
           <li

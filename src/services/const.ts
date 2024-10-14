@@ -70,7 +70,7 @@ export const ExpensesCategoryButtons = [
 ];
 
 export const noResultsData = {
-  labels: "",
+  labels: [],
   datasets: [
     {
       data: [1],

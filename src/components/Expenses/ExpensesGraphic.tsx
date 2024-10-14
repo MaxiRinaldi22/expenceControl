@@ -7,7 +7,11 @@ import { StructureType } from "../../services/types";
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function ExpensesGraphinc({ filteredExpenses } : { filteredExpenses: StructureType[] }) {
+function ExpensesGraphinc({
+  filteredExpenses,
+}: {
+  filteredExpenses: StructureType[];
+}) {
   const [health, setHealth] = useState(0);
   const [leisure, setLeisure] = useState(0);
   const [home, setHome] = useState(0);
@@ -16,28 +20,53 @@ function ExpensesGraphinc({ filteredExpenses } : { filteredExpenses: StructureTy
   const [gifts, setGifts] = useState(0);
   const [groceries, setGroceries] = useState(0);
 
-  const totalExpensesValue = filteredExpenses.reduce((acc, curr) => acc + curr.amount!, 0);
-  
-  useEffect(() => {
-    const healthExpenses = filteredExpenses.filter((expense) => expense.category === "Health");
-    const leisureExpenses = filteredExpenses.filter((expense) => expense.category === "Leisure");
-    const homeExpenses = filteredExpenses.filter((expense) => expense.category === "Home");
-    const cafeExpenses = filteredExpenses.filter((expense) => expense.category === "Cafe");
-    const educationExpenses = filteredExpenses.filter((expense) => expense.category === "Education");
-    const giftsExpenses = filteredExpenses.filter((expense) => expense.category === "Gifts");
-    const groceriesExpenses = filteredExpenses.filter((expense) => expense.category === "Groceries");
+  const totalExpensesValue = filteredExpenses.reduce(
+    (acc, curr) => acc + Number(curr.amount),
+    0,
+  );
 
-    setHealth(healthExpenses.reduce((acc, curr) => acc + curr.amount, 0));
-    setLeisure(leisureExpenses.reduce((acc, curr) => acc + curr.amount, 0));
-    setHome(homeExpenses.reduce((acc, curr) => acc + curr.amount, 0));
-    setCafe(cafeExpenses.reduce((acc, curr) => acc + curr.amount, 0));
-    setEducation(educationExpenses.reduce((acc, curr) => acc + curr.amount, 0));
-    setGifts(giftsExpenses.reduce((acc, curr) => acc + curr.amount, 0));
-    setGroceries(groceriesExpenses.reduce((acc, curr) => acc + curr.amount, 0));
+  useEffect(() => {
+    const healthExpenses = filteredExpenses.filter(
+      (expense) => expense.category === "Health",
+    );
+    const leisureExpenses = filteredExpenses.filter(
+      (expense) => expense.category === "Leisure",
+    );
+    const homeExpenses = filteredExpenses.filter(
+      (expense) => expense.category === "Home",
+    );
+    const cafeExpenses = filteredExpenses.filter(
+      (expense) => expense.category === "Cafe",
+    );
+    const educationExpenses = filteredExpenses.filter(
+      (expense) => expense.category === "Education",
+    );
+    const giftsExpenses = filteredExpenses.filter(
+      (expense) => expense.category === "Gifts",
+    );
+    const groceriesExpenses = filteredExpenses.filter(
+      (expense) => expense.category === "Groceries",
+    );
+
+    setHealth(
+      healthExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0),
+    );
+    setLeisure(
+      leisureExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0),
+    );
+    setHome(homeExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0));
+    setCafe(cafeExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0));
+    setEducation(
+      educationExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0),
+    );
+    setGifts(giftsExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0));
+    setGroceries(
+      groceriesExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0),
+    );
   }, [filteredExpenses]);
 
   const withResultsData = {
-    labels: "",
+    labels: [],
     datasets: [
       {
         data: [health, leisure, home, cafe, education, gifts, groceries],
@@ -81,7 +110,7 @@ function ExpensesGraphinc({ filteredExpenses } : { filteredExpenses: StructureTy
         <Doughnut data={withResultsData} options={options} />
       )}
       <div className="absolute inset-0 flex items-center justify-center">
-      {totalExpensesValue !== 0 ? (
+        {totalExpensesValue !== 0 ? (
           <h2 className="text-2xl font-semibold">${showResult}</h2>
         ) : (
           <h2 className="max-w-20 text-center text-lg font-[400]">

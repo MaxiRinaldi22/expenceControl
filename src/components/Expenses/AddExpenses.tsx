@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { AddComponent, AddInput, BackArrow, HeaderTotalValue, SelectDate } from "../Components";
+import {
+  AddComponent,
+  AddInput,
+  BackArrow,
+  HeaderTotalValue,
+  SelectDate,
+} from "../Components";
 import { ExpensesCategoryButtons } from "../../services/const";
 import {
   Cafe,
@@ -10,7 +16,7 @@ import {
   Home,
   Leisure,
 } from "../icons";
-import  useExpensesContext  from "../../hooks/useExpensesContext";
+import useExpensesContext from "../../hooks/useExpensesContext";
 import useBalanceContext from "../../hooks/useBalanceContext";
 
 export function AddExpenses({
@@ -21,7 +27,7 @@ export function AddExpenses({
   const { balance, setBalance } = useBalanceContext();
   const { expenses, setExpenses } = useExpensesContext();
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState<number | string>(0);
   const [category, setCategory] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("");
   const [date, setDate] = useState("");
@@ -60,65 +66,70 @@ export function AddExpenses({
   useEffect(() => {
     if (amount === 0 || amount === "" || category === "" || date === "") {
       setDisableButton(true);
-    } else if (amount > 0 && amount !== "" && category !== "" && date !== "") {
+    } else if (
+      Number(amount) > 0 &&
+      amount !== "" &&
+      category !== "" &&
+      date !== ""
+    ) {
       setDisableButton(false);
     }
   }, [amount, category, date]);
 
   return (
-      <>
+    <>
       <HeaderTotalValue />
 
-    <AddComponent>
-      <BackArrow setOpen={setOpen} />
-      <div className="flex h-full flex-col items-center justify-between px-5 pb-4 pt-2">
-        <AddInput amount={amount} setAmount={setAmount} />
-        <div className="grid w-full grid-cols-4 gap-2">
-          {ExpensesCategoryButtons.map((category, id: number) => (
-            <button
-              key={category.id}
-              style={selectedCategory[id] ? { background: "#001D3D" } : {}}
-              className="flex w-full transform flex-col items-center justify-center gap-1 rounded-md p-2 transition-transform duration-300 will-change-transform hover:scale-110"
-              onClick={() =>
-                handleCatergorySelect(category.text, category.background, id)
-              }
-            >
-              <div
-                className="flex h-14 w-14 items-center justify-center rounded-full text-sm font-semibold"
-                style={{
-                  background: category.background,
-                }}
+      <AddComponent>
+        <BackArrow setOpen={setOpen} />
+        <div className="flex h-full flex-col items-center justify-between px-5 pb-4 pt-2">
+          <AddInput amount={amount} setAmount={setAmount} />
+          <div className="grid w-full grid-cols-4 gap-2">
+            {ExpensesCategoryButtons.map((category, id: number) => (
+              <button
+                key={category.id}
+                style={selectedCategory[id] ? { background: "#001D3D" } : {}}
+                className="flex w-full transform flex-col items-center justify-center gap-1 rounded-md p-2 transition-transform duration-300 will-change-transform hover:scale-110"
+                onClick={() =>
+                  handleCatergorySelect(category.text, category.background, id)
+                }
               >
-                {category.text === "Health" && <Helath width={32} />}
-                {category.text === "Leisure" && <Leisure width={32} />}
-                {category.text === "Home" && <Home width={32} />}
-                {category.text === "Cafe" && <Cafe width={32} />}
-                {category.text === "Education" && <Education width={32} />}
-                {category.text === "Gifts" && <Gift width={32} />}
-                {category.text === "Groceries" && <Groceries width={32} />}
-              </div>
-              <p className="text-xs font-semibold text-white">
-                {" "}
-                {category.text}
-              </p>
-            </button>
-          ))}
+                <div
+                  className="flex h-14 w-14 items-center justify-center rounded-full text-sm font-semibold"
+                  style={{
+                    background: category.background,
+                  }}
+                >
+                  {category.text === "Health" && <Helath width={32} />}
+                  {category.text === "Leisure" && <Leisure width={32} />}
+                  {category.text === "Home" && <Home width={32} />}
+                  {category.text === "Cafe" && <Cafe width={32} />}
+                  {category.text === "Education" && <Education width={32} />}
+                  {category.text === "Gifts" && <Gift width={32} />}
+                  {category.text === "Groceries" && <Groceries width={32} />}
+                </div>
+                <p className="text-xs font-semibold text-white">
+                  {" "}
+                  {category.text}
+                </p>
+              </button>
+            ))}
+          </div>
+          <SelectDate setDate={setDate} />
+          <button
+            disabled={disableButton}
+            onClick={handleAddExpenses}
+            className="h-9 w-40 rounded-xl text-xl font-semibold"
+            style={
+              !disableButton
+                ? { backgroundColor: "#FFC300" }
+                : { backgroundColor: "#FFC40096" }
+            }
+          >
+            Add
+          </button>
         </div>
-        <SelectDate setDate={setDate} />
-        <button
-          disabled={disableButton}
-          onClick={handleAddExpenses}
-          className="h-9 w-40 rounded-xl text-xl font-semibold"
-          style={
-            !disableButton
-              ? { backgroundColor: "#FFC300",  }
-              : { backgroundColor: "#FFC40096" }
-          }
-        >
-          Add
-        </button>
-      </div>
-    </AddComponent>
+      </AddComponent>
     </>
   );
 }

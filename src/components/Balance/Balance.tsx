@@ -1,4 +1,9 @@
-import { GraphicBox, HeaderTotalValue, ServiceCard, TimeNavbar } from "../Components";
+import {
+  GraphicBox,
+  HeaderTotalValue,
+  ServiceCard,
+  TimeNavbar,
+} from "../Components";
 import BalanceGraphic from "./BalanceGraphic";
 import {
   Bank,
@@ -23,19 +28,22 @@ function Balance() {
   const { balance } = useBalanceContext();
   const [dateNav, setDateNav] = useState<"day" | "week" | "month" | "year">(
     "week",
-  )
+  );
 
-  const filteredBalance: StructureType[] = useDateFilter({ items: balance, dateNav })
+  const filteredBalance: StructureType[] = useDateFilter({
+    items: balance,
+    dateNav,
+  });
 
   return (
     <section className="relative flex h-[92vh] flex-col items-center gap-3 bg-[#001D3D] p-3 pt-0 text-3xl">
       <HeaderTotalValue />
       <GraphicBox>
-        <TimeNavbar dateNav={dateNav} setDateNav={setDateNav}/>
+        <TimeNavbar dateNav={dateNav} setDateNav={setDateNav} />
         <div className="flex h-full">
           <div className="h-full w-16">{/* EMPTY */}</div>
           <div className="flex h-full w-56 items-center justify-center text-white">
-            <BalanceGraphic filteredBalance={filteredBalance}/>
+            <BalanceGraphic filteredBalance={filteredBalance} />
           </div>
           <div className="h-full w-16">{/* EMPTY */}</div>
         </div>
@@ -59,8 +67,8 @@ function Balance() {
                 {inconm.category === "Gift" && <Gift width={22} />}
                 {inconm.category === "Interest" && <Bank width={22} />}
                 {inconm.category === "Other" && <Question width={22} />}
-                {inconm.category === 'Investment' && <Investemnt width={22} />}
-                {inconm.category === 'Bonus' && <Bonus width={22} />}
+                {inconm.category === "Investment" && <Investemnt width={22} />}
+                {inconm.category === "Bonus" && <Bonus width={22} />}
                 {/* EXPRESES */}
                 {inconm.category === "Health" && <Helath width={22} />}
                 {inconm.category === "Leisure" && <Leisure width={22} />}

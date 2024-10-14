@@ -5,7 +5,6 @@ import {
   AddComponent,
   AddInput,
   BackArrow,
-  HeaderTotalValue,
   SelectDate,
 } from "../Components";
 import useBalanceContext from "../../hooks/useBalanceContext";

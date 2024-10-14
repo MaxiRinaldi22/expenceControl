@@ -16,14 +16,14 @@ function BalanceContextProvider({ children }: { children: React.ReactNode }) {
   const { expenses } = useExpensesContext();
 
   const totalExpensesValue = expenses.reduce(
-    (acc, curr) => acc + curr.amount!,
+    (acc, curr) => acc + Number(curr.amount),
     0,
   );
   const totalInconmeValue = inconmes.reduce(
-    (acc, curr) => acc + curr.amount!,
+    (acc, curr) => acc + Number(curr.amount),
     0,
   );
- 
+
   const totalValue = totalInconmeValue - totalExpensesValue;
 
   localStorage.setItem("balance", JSON.stringify(balance));

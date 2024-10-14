@@ -1,10 +1,11 @@
 import { DateFilterProps, StructureType } from "../services/types";
 
-export function useDateFilter({ items, dateNav }: DateFilterProps) : StructureType[] {
-    
+export function useDateFilter({
+  items,
+  dateNav,
+}: DateFilterProps): StructureType[] {
   const dateConst = new Date();
-  let filteredItems = items
-  
+  let filteredItems = items;
 
   if (dateNav === "day") {
     filteredItems = items.filter(
@@ -56,5 +57,5 @@ export function useDateFilter({ items, dateNav }: DateFilterProps) : StructureTy
     });
   }
 
-  return filteredItems
+  return filteredItems;
 }

@@ -1,5 +1,5 @@
 export type StructureType = {
-  amount: number | undefined;
+  amount: number | string;
   category: string;
   backgroundColor: string;
   date: string;
@@ -12,22 +12,24 @@ export type InconmeContextType = {
 };
 
 export type BalanceContextType = {
-  balance: StructureType[],
-  setBalance:  React.Dispatch<React.SetStateAction<StructureType[]>>
-  totalValue: number
-}
+  balance: StructureType[];
+  setBalance: React.Dispatch<React.SetStateAction<StructureType[]>>;
+  totalValue: number;
+};
 
 export type ExpensesContextType = {
   expenses: StructureType[];
   setExpenses: React.Dispatch<React.SetStateAction<StructureType[]>>;
 };
 
+type dates = "day" | "week" | "month" | "year";
+
 export type DateNavProps = {
-  dateNav: "day" | "week" | "month" | "year";
-  setDateNav: React.Dispatch<React.SetStateAction<"day" | "week" | "month" | "year">>;
-}
+  dateNav: dates;
+  setDateNav: React.Dispatch<React.SetStateAction<dates>>;
+};
 
 export type DateFilterProps = {
-  dateNav: "day" | "week" | "month" | "year";
+  dateNav: dates;
   items: StructureType[];
-}
+};

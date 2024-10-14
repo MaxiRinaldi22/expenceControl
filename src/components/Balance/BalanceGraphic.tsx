@@ -3,17 +3,23 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { noResultsData } from "../../services/const";
 import { StructureType } from "../../services/types";
 
-
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function BalanceGraphic({filteredBalance} : {filteredBalance: StructureType[]}) {
+function BalanceGraphic({
+  filteredBalance,
+}: {
+  filteredBalance: StructureType[];
+}) {
+  const totalInconmeValue = filteredBalance
+    .filter((inconme) => inconme.type === "inconme")
+    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+  const totalExpensesValue = filteredBalance
+    .filter((inconme) => inconme.type === "expenses")
+    .reduce((acc, curr) => acc + Number(curr.amount), 0);
 
-  const totalInconmeValue = filteredBalance.filter((inconme) => inconme.type === "inconme").reduce((acc, curr) => acc + curr.amount!, 0);
-  const totalExpensesValue = filteredBalance.filter((inconme) => inconme.type === "expenses").reduce((acc, curr) => acc + curr.amount!, 0);
-  
   const withResultsData = {
-    labels: '',
+    labels: [],
     datasets: [
       {
         data: [totalInconmeValue, totalExpensesValue],
@@ -50,7 +56,7 @@ function BalanceGraphic({filteredBalance} : {filteredBalance: StructureType[]}) 
         <Doughnut data={withResultsData} options={options} />
       )}
       <div className="absolute inset-0 flex items-center justify-center">
-      {totalExpensesValue !== 0 || totalInconmeValue !== 0 ? (
+        {totalExpensesValue !== 0 || totalInconmeValue !== 0 ? (
           <h2 className="text-3xl font-semibold">${showResult}</h2>
         ) : (
           <h2 className="max-w-20 text-center text-lg font-[400]">

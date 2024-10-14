@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { GraphicBox, HeaderTotalValue, OpenButton, ServiceCard, TimeNavbar } from "../Components";
+import {
+  GraphicBox,
+  HeaderTotalValue,
+  OpenButton,
+  ServiceCard,
+  TimeNavbar,
+} from "../Components";
 import { AddExpenses } from "./AddExpenses";
 import ExpensesGraphinc from "./ExpensesGraphic";
 import {
   Cafe,
-  Coin,
   Education,
   Gift,
   Groceries,
