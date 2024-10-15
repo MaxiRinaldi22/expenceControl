@@ -39,7 +39,7 @@ function Income() {
           <OpenButton setOpen={setOpen} />
         </div>
       </GraphicBox>
-      <div className="flex h-[420px] w-full flex-col gap-1 overflow-y-auto">
+      <div className="flex h-[420px] w-full md:w-[800px] flex-col gap-1 overflow-y-auto">
         {filteredInconmes.map((incon: StructureType, id: number) => (
           // -> Camiar el ID por otra cosa
           <ServiceCard key={id} id={id} color={incon.backgroundColor}>

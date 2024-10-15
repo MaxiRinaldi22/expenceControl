@@ -2,10 +2,11 @@ import { useState } from "react";
 import { DateNavProps } from "../services/types";
 import { BackArrowIcon, Coin, Plus } from "./icons";
 import useBalanceContext from "../hooks/useBalanceContext";
+import scrollBar from "./scrollBar.module.css";
 
 export function GraphicBox({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-80 w-full flex-col justify-between rounded-xl bg-[#000814] px-3 py-3">
+    <div className="flex h-80 w-full flex-col justify-between rounded-xl bg-[#000814] px-3 py-3 md:h-96 md:w-[800px]">
       {children}
     </div>
   );
@@ -44,7 +45,7 @@ export function TimeNavbar({ setDateNav, dateNav }: DateNavProps) {
 
   return (
     <nav>
-      <ul className="flex justify-between px-12 text-sm font-semibold text-white">
+      <ul className="flex justify-between px-12 text-sm font-semibold text-white md:px-60 md:text-base">
         <li style={dateNav === "day" ? styles.active : styles.disable}>
           <button onClick={() => setDateNav("day")}>Day</button>
         </li>
@@ -81,7 +82,7 @@ export function OpenButton({
 
 export function AddComponent({ children }: { children: React.ReactNode }) {
   return (
-    <section className="absolute flex h-[92vh] w-full items-center justify-center bg-back-main-color p-6">
+    <section className="absolute flex h-[92vh] w-full items-center justify-center bg-back-main-color p-6 md:w-[800px] md:px-44">
       <div className="flex h-[510px] w-full flex-col items-center justify-between gap-5 rounded-xl bg-component-color px-2 pt-2">
         {children}
       </div>
@@ -223,12 +224,25 @@ export function HeaderTotalValue() {
   }
 
   return (
-    <section className="flex h-[8vh] flex-col items-center justify-center rounded-bl-full rounded-br-full bg-[#003566] px-20">
+    <section className="flex h-[8vh] flex-col items-center justify-center rounded-bl-full rounded-br-full bg-[#003566] px-20 md:px-44">
       <div className="flex items-center gap-2">
         <Coin />
-        <p className="text-sm font-semibold text-white">Total:</p>
+        <p className="text-sm font-semibold text-white md:text-lg">Total:</p>
       </div>
-      <h1 className="text-[20px] font-bold text-white">${showResult}</h1>
+      <h1 className="text-[20px] font-bold text-white md:text-2xl">
+        ${showResult}
+      </h1>
     </section>
+  );
+}
+
+export function List({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className="flex h-[420px] w-full flex-col gap-1 overflow-y-auto md:w-[800px]"
+      style={{ scrollbarWidth: "thin", scrollbarColor: "#003566 #001D3D" }}
+    >
+      {children}
+    </div>
   );
 }

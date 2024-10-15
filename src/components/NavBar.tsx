@@ -7,8 +7,8 @@ function NavBar() {
   };
 
   return (
-    <div className="absolute w-full bg-back-main-color">
-      <nav className="flex h-[8vh] items-center justify-center rounded-tl-full rounded-tr-full bg-[#003566]">
+    <div className="absolute w-full bg-back-main-color md:flex md:justify-center ">
+      <nav className="flex h-[8vh] items-center justify-center rounded-tl-full rounded-tr-full bg-[#003566] md:w-[800px]">
         <ul className="flex gap-10">
           <li
             className="text-sm font-semibold text-white"
@@ -18,15 +18,15 @@ function NavBar() {
           </li>
           <li
             className="text-sm font-semibold text-white"
-            style={isActive("/about") ? styles.active : styles.disable}
+            style={isActive("/balance") ? styles.active : styles.disable}
           >
-            <Link to="/about">BALANCE</Link>
+            <Link to="/balance">BALANCE</Link>
           </li>
           <li
             className="text-sm font-semibold text-white"
-            style={isActive("/contact") ? styles.active : styles.disable}
+            style={isActive("/income") ? styles.active : styles.disable}
           >
-            <Link to="/contact">ICONME</Link>
+            <Link to="/income">ICONME</Link>
           </li>
         </ul>
       </nav>

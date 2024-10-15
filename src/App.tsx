@@ -12,15 +12,17 @@ function App() {
     <InconmeContextProvider>
       <ExpensesContextProvider>
         <BalanceContextProvider>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Balance />} />
-              <Route path="/expenses" element={<Expenses />} />
-              <Route path="/about" element={<Balance />} />
-              <Route path="/contact" element={<Income />} />
-            </Routes>
-            <NavBar />
-          </Router>
+          <body className="max-h-[100vh]">
+            <Router>
+              <Routes>
+                <Route path="/" element={<Balance />} />
+                <Route path="/expenses" element={<Expenses />} />
+                <Route path="/balance" element={<Balance />} />
+                <Route path="/income" element={<Income />} />
+              </Routes>
+              <NavBar />
+            </Router>
+          </body>
         </BalanceContextProvider>
       </ExpensesContextProvider>
     </InconmeContextProvider>

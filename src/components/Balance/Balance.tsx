@@ -1,6 +1,7 @@
 import {
   GraphicBox,
   HeaderTotalValue,
+  List,
   ServiceCard,
   TimeNavbar,
 } from "../Components";
@@ -41,14 +42,14 @@ function Balance() {
       <GraphicBox>
         <TimeNavbar dateNav={dateNav} setDateNav={setDateNav} />
         <div className="flex h-full">
-          <div className="h-full w-16">{/* EMPTY */}</div>
+          <div className="h-full w-full">{/* EMPTY */}</div>
           <div className="flex h-full w-56 items-center justify-center text-white">
             <BalanceGraphic filteredBalance={filteredBalance} />
           </div>
-          <div className="h-full w-16">{/* EMPTY */}</div>
+          <div className="h-full w-full">{/* EMPTY */}</div>
         </div>
       </GraphicBox>
-      <div className="flex h-[420px] w-full flex-col gap-1 overflow-y-auto">
+      <List>
         {filteredBalance.map((inconm: StructureType, id: number) => (
           <ServiceCard
             key={id}
@@ -83,7 +84,7 @@ function Balance() {
             <p className="text-base font-[500]">${inconm.amount}</p>
           </ServiceCard>
         ))}
-      </div>
+      </List>
     </section>
   );
 }

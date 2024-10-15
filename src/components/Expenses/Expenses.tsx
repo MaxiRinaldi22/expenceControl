@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   GraphicBox,
   HeaderTotalValue,
+  List,
   OpenButton,
   ServiceCard,
   TimeNavbar,
@@ -46,7 +47,7 @@ function Expenses() {
           <OpenButton setOpen={setOpen} />
         </div>
       </GraphicBox>
-      <div className="flex h-[420px] w-full flex-col gap-1 overflow-y-auto rounded-md">
+      <List>
         {filteredExpenses.map((exp: StructureType, id: number) => (
           <ServiceCard key={id} id={id} color={exp.backgroundColor}>
             <div className="flex items-center justify-center gap-2">
@@ -67,7 +68,7 @@ function Expenses() {
             <p className="text-base font-[500]">${exp.amount}</p>
           </ServiceCard>
         ))}
-      </div>
+      </List>
       {open && <AddExpenses setOpen={setOpen} />}
     </section>
   );
