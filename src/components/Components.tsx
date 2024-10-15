@@ -2,7 +2,6 @@ import { useState } from "react";
 import { DateNavProps } from "../services/types";
 import { BackArrowIcon, Coin, Plus } from "./icons";
 import useBalanceContext from "../hooks/useBalanceContext";
-import scrollBar from "./scrollBar.module.css";
 
 export function GraphicBox({ children }: { children: React.ReactNode }) {
   return (
