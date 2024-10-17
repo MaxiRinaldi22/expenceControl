@@ -1,11 +1,25 @@
-import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut, Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
 import { useEffect, useState } from "react";
-import { noResultsData } from "../../services/const";
+import { ExpensesCategoryButtons, noResultsData } from "../../services/const";
 import { StructureType } from "../../services/types";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+);
 
 function ExpensesGraphinc({
   filteredExpenses,
@@ -19,11 +33,7 @@ function ExpensesGraphinc({
   const [education, setEducation] = useState(0);
   const [gifts, setGifts] = useState(0);
   const [groceries, setGroceries] = useState(0);
-
-  const totalExpensesValue = filteredExpenses.reduce(
-    (acc, curr) => acc + Number(curr.amount),
-    0,
-  );
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const healthExpenses = filteredExpenses.filter(
@@ -65,8 +75,21 @@ function ExpensesGraphinc({
     );
   }, [filteredExpenses]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const withResultsData = {
-    labels: [],
+    labels: ExpensesCategoryButtons.map((expense) => expense.text),
     datasets: [
       {
         data: [health, leisure, home, cafe, education, gifts, groceries],
@@ -86,38 +109,64 @@ function ExpensesGraphinc({
   };
 
   const options = {
-    cutout: "60%",
+    cutout: "50%",
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom",
+        align: "start",
+        maxHeight: 100,
+        labels: {
+          usePointStyle: true,
+          pointStyle: "circle",
+        },
+      },
+    },
+    hover: {
+      mode: null,
+    },
+  };
+
+  const barOptions = {
+    type: "bar",
+    indexAxis: "x",
+    scales: {
+      x: {
+        beginAtZero: true,
+      },
+      y: {
+        ticks: {
+          autoSkip: true,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    hover: {
+      mode: null,
+    },
   };
 
   const allZero = withResultsData.datasets[0].data.every(
     (value) => value === 0,
   );
 
-  let showResult;
-  if (totalExpensesValue >= 1000000) {
-    showResult = (totalExpensesValue / 1000000).toFixed(1) + "M";
-  } else if (totalExpensesValue >= 1000) {
-    showResult = (totalExpensesValue / 1000).toFixed(1) + "K";
-  } else {
-    showResult = totalExpensesValue.toString();
-  }
-
   return (
-    <div className="relative mx-auto flex h-full w-full items-center justify-center">
+    <div className="relative flex h-full w-full items-center justify-center p-5">
       {allZero ? (
         <Doughnut data={noResultsData} options={options} />
+      ) : isMobile ? (
+        <Doughnut
+          data={withResultsData}
+          options={options}
+          style={{ height: "80%", width: "80%" }}
+        />
       ) : (
-        <Doughnut data={withResultsData} options={options} />
+        <Bar data={withResultsData} options={barOptions} />
       )}
-      <div className="absolute inset-0 flex items-center justify-center">
-        {totalExpensesValue !== 0 ? (
-          <h2 className="text-2xl font-semibold">${showResult}</h2>
-        ) : (
-          <h2 className="max-w-20 text-center text-lg font-[400]">
-            No expenses yet
-          </h2>
-        )}
-      </div>
     </div>
   );
 }

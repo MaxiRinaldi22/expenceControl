@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        "back-main-color": "#001D3D",
-        "component-color": "#000814",
+        "back-main-color": "#243B55",
+        "component-color": "#1F2D3D",
       },
     },
   },

@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { Bank, Bonus, Gift, HandCoin, Investemnt, Question } from "../icons";
 import { InconmeCategoryButtons } from "../../services/const";
-import {
-  AddComponent,
-  AddInput,
-  BackArrow,
-  SelectDate,
-} from "../Components";
 import useBalanceContext from "../../hooks/useBalanceContext";
 import useInconmeContext from "../../hooks/useInconmeContext";
+import { AddComponent } from "../ui/AddComponent";
+import { SelectDate } from "../ui/SelectDate";
+import { BackArrow } from "../ui/BackArrow";
+import { AddInput } from "../ui/AddInput";
 
 function AddIncome({
   setOpen,

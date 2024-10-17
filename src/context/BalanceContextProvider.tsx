@@ -12,17 +12,8 @@ function BalanceContextProvider({ children }: { children: React.ReactNode }) {
       : [],
   );
 
-  const { inconmes } = useInconmeContext();
-  const { expenses } = useExpensesContext();
-
-  const totalExpensesValue = expenses.reduce(
-    (acc, curr) => acc + Number(curr.amount),
-    0,
-  );
-  const totalInconmeValue = inconmes.reduce(
-    (acc, curr) => acc + Number(curr.amount),
-    0,
-  );
+  const { totalInconmeValue } = useInconmeContext();
+  const { totalExpensesValue } = useExpensesContext();
 
   const totalValue = totalInconmeValue - totalExpensesValue;
 

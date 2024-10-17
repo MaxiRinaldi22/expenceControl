@@ -1,11 +1,25 @@
+import { Doughnut, Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
-import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { noResultsData } from "../../services/const";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
+import { InconmeCategoryButtons, noResultsData } from "../../services/const";
 import { StructureType } from "../../services/types";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+);
 
 function IncomeGraphic({
   filteredInconmes,
@@ -18,6 +32,7 @@ function IncomeGraphic({
   const [other, setOther] = useState(0);
   const [investemnt, setInvestemnt] = useState(0);
   const [bonus, setBonus] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const totalInconmeValue = filteredInconmes.reduce(
     (acc, curr) => acc + Number(curr.amount),
@@ -58,8 +73,22 @@ function IncomeGraphic({
     setOther(otherExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0));
   }, [filteredInconmes]);
 
+  // -> USE EFFECT REPETIDO (UNIR A UNO SOLO PARA USAR EN TODOS LOS GRAFICOS)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const withResultsData = {
-    labels: [],
+    labels: InconmeCategoryButtons.map((inconme) => inconme.text),
     datasets: [
       {
         data: [paycheck, gift, interest, other, bonus, investemnt],
@@ -77,38 +106,65 @@ function IncomeGraphic({
   };
 
   const options = {
-    cutout: "60%",
+    cutout: "50%",
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom",
+        align: "start",
+        maxHeight: 100,
+        labels: {
+          usePointStyle: true,
+          pointStyle: "circle",
+        },
+      },
+    },
+    hover: {
+      mode: null,
+    },
+  };
+
+  // -> REPETIDO 
+  const barOptions = {
+    type: "bar",
+    indexAxis: "x",
+    scales: {
+      x: {
+        beginAtZero: true,
+      },
+      y: {
+        ticks: {
+          autoSkip: true,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    hover: {
+      mode: null,
+    },
   };
 
   const allZero = withResultsData.datasets[0].data.every(
     (value) => value === 0,
   );
 
-  let showResult;
-  if (totalInconmeValue >= 1000000) {
-    showResult = (totalInconmeValue / 1000000).toFixed(1) + "M";
-  } else if (totalInconmeValue >= 1000) {
-    showResult = (totalInconmeValue / 1000).toFixed(1) + "K";
-  } else {
-    showResult = totalInconmeValue.toString();
-  }
-
   return (
-    <div className="relative mx-auto flex h-full w-full items-center justify-center">
+    <div className="relative flex h-full w-full items-center justify-center p-5">
       {allZero ? (
         <Doughnut data={noResultsData} options={options} />
+      ) : isMobile ? (
+        <Doughnut
+          data={withResultsData}
+          options={options}
+          style={{ height: "80%", width: "80%" }}
+        />
       ) : (
-        <Doughnut data={withResultsData} options={options} />
+        <Bar data={withResultsData} options={barOptions} />
       )}
-      <div className="absolute inset-0 flex items-center justify-center">
-        {totalInconmeValue !== 0 ? (
-          <h2 className="text-3xl font-semibold">${showResult}</h2>
-        ) : (
-          <h2 className="max-w-20 text-center text-lg font-[400]">
-            No inconmes yet
-          </h2>
-        )}
-      </div>
     </div>
   );
 }

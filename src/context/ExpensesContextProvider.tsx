@@ -12,8 +12,15 @@ function ExpensesContextProvider({ children }: { children: React.ReactNode }) {
 
   localStorage.setItem("expenses", JSON.stringify(expenses));
 
+  const totalExpensesValue = expenses.reduce(
+    (acc, curr) => acc + Number(curr.amount),
+    0,
+  );
+
   return (
-    <ExpensesContext.Provider value={{ expenses, setExpenses }}>
+    <ExpensesContext.Provider
+      value={{ expenses, setExpenses, totalExpensesValue }}
+    >
       {children}
     </ExpensesContext.Provider>
   );

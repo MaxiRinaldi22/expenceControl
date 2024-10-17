@@ -1,16 +1,33 @@
-import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut, Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
 import { noResultsData } from "../../services/const";
 import { StructureType } from "../../services/types";
+import { useEffect, useState } from "react";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+);
 
 function BalanceGraphic({
   filteredBalance,
 }: {
   filteredBalance: StructureType[];
 }) {
+  const [isMobile, setIsMobile] = useState(false);
+
   const totalInconmeValue = filteredBalance
     .filter((inconme) => inconme.type === "inconme")
     .reduce((acc, curr) => acc + Number(curr.amount), 0);
@@ -18,8 +35,21 @@ function BalanceGraphic({
     .filter((inconme) => inconme.type === "expenses")
     .reduce((acc, curr) => acc + Number(curr.amount), 0);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const withResultsData = {
-    labels: [],
+    labels: [true, false],
     datasets: [
       {
         data: [totalInconmeValue, totalExpensesValue],
@@ -34,36 +64,60 @@ function BalanceGraphic({
   );
 
   const options = {
-    cutout: "60%",
+    cutout: "50%",
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom",
+        align: "start",
+        maxHeight: 100,
+        labels: {
+          usePointStyle: true,
+          pointStyle: "circle",
+        },
+      },
+    },
+    hover: {
+      mode: null,
+    },
   };
 
-  const totalValue = totalInconmeValue - totalExpensesValue;
-
-  let showResult;
-  if (totalExpensesValue >= 1000000) {
-    showResult = (totalValue / 1000000).toFixed(1) + "M";
-  } else if (totalValue >= 1000) {
-    showResult = (totalValue / 1000).toFixed(1) + "K";
-  } else {
-    showResult = totalValue.toString();
-  }
+  const barOptions = {
+    type: "bar",
+    indexAxis: "x",
+    scales: {
+      x: {
+        beginAtZero: true,
+      },
+      y: {
+        ticks: {
+          autoSkip: true,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    hover: {
+      mode: null,
+    },
+  };
 
   return (
-    <div className="relative mx-auto flex h-full w-full items-center justify-center">
+    <div className="relative flex h-full w-full items-center justify-center p-5">
       {allZero ? (
         <Doughnut data={noResultsData} options={options} />
+      ) : isMobile ? (
+        <Doughnut
+          data={withResultsData}
+          options={options}
+          style={{ height: "80%", width: "80%" }}
+        />
       ) : (
-        <Doughnut data={withResultsData} options={options} />
+        <Bar data={withResultsData} options={barOptions} />
       )}
-      <div className="absolute inset-0 flex items-center justify-center">
-        {totalExpensesValue !== 0 || totalInconmeValue !== 0 ? (
-          <h2 className="text-3xl font-semibold">${showResult}</h2>
-        ) : (
-          <h2 className="max-w-20 text-center text-lg font-[400]">
-            Not enough info yet
-          </h2>
-        )}
-      </div>
     </div>
   );
 }

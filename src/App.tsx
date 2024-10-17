@@ -12,17 +12,18 @@ function App() {
     <InconmeContextProvider>
       <ExpensesContextProvider>
         <BalanceContextProvider>
-          <body className="max-h-[100vh]">
-            <Router>
+          <Router>
+            <section className="flex flex-col md:flex-row">
+              <NavBar />
+           
               <Routes>
                 <Route path="/" element={<Balance />} />
                 <Route path="/expenses" element={<Expenses />} />
                 <Route path="/balance" element={<Balance />} />
                 <Route path="/income" element={<Income />} />
               </Routes>
-              <NavBar />
-            </Router>
-          </body>
+            </section>
+          </Router>
         </BalanceContextProvider>
       </ExpensesContextProvider>
     </InconmeContextProvider>

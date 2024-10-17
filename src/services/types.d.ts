@@ -9,6 +9,7 @@ export type StructureType = {
 export type InconmeContextType = {
   inconmes: StructureType[];
   setInconmes: React.Dispatch<React.SetStateAction<StructureType[]>>;
+  totalInconmeValue: number;
 };
 
 export type BalanceContextType = {
@@ -20,9 +21,10 @@ export type BalanceContextType = {
 export type ExpensesContextType = {
   expenses: StructureType[];
   setExpenses: React.Dispatch<React.SetStateAction<StructureType[]>>;
+  totalExpensesValue: number;
 };
 
-type dates = "day" | "week" | "month" | "year";
+export type dates = "day" | "week" | "month" | "year";
 
 export type DateNavProps = {
   dateNav: dates;

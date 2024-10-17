@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  AddComponent,
-  AddInput,
-  BackArrow,
-  HeaderTotalValue,
-  SelectDate,
-} from "../Components";
 import { ExpensesCategoryButtons } from "../../services/const";
+import { AddComponent } from "../ui/AddComponent";
 import {
   Cafe,
   Education,
@@ -18,6 +12,10 @@ import {
 } from "../icons";
 import useExpensesContext from "../../hooks/useExpensesContext";
 import useBalanceContext from "../../hooks/useBalanceContext";
+import { SelectDate } from "../ui/SelectDate";
+import { AddInput } from "../ui/AddInput";
+import { BackArrow } from "../ui/BackArrow";
+import { HeaderTotalValue } from "../ui/HeaderTotalValue";
 
 export function AddExpenses({
   setOpen,
@@ -77,9 +75,6 @@ export function AddExpenses({
   }, [amount, category, date]);
 
   return (
-    <>
-      <HeaderTotalValue />
-
       <AddComponent>
         <BackArrow setOpen={setOpen} />
         <div className="flex h-full flex-col items-center justify-between px-5 pb-4 pt-2">
@@ -130,6 +125,6 @@ export function AddExpenses({
           </button>
         </div>
       </AddComponent>
-    </>
+
   );
 }

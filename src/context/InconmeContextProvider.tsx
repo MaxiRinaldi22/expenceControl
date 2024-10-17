@@ -12,8 +12,15 @@ function InconmeContextProvider({ children }: { children: React.ReactNode }) {
 
   localStorage.setItem("inconmes", JSON.stringify(inconmes));
 
+  const totalInconmeValue = inconmes.reduce(
+    (acc, curr) => acc + Number(curr.amount),
+    0,
+  );
+
+
   return (
-    <InconmeContext.Provider value={{ inconmes, setInconmes }}>
+    <InconmeContext.Provider value={{ inconmes, setInconmes, totalInconmeValue }}>
+
       {children}
     </InconmeContext.Provider>
   );
