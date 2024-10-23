@@ -14,7 +14,10 @@
 
 
 
+# ERRORES
 
+- No aparece el calendario en mobile
+- No carga el favicon
 
 
 TIENE QUE HABER UN VALOR SOLO POR DIA QUE SE VAYA SUMANDO EN COMPARACION A LAS EXPENCES || INCOME QUE LE ENTRAN
