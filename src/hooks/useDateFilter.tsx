@@ -5,7 +5,7 @@ export function useDateFilter({
   dateNav,
 }: DateFilterProps): StructureType[] {
   const dateConst = new Date();
-  let filteredItems = items;
+  let filteredItems = items
 
   if (dateNav === "day") {
     filteredItems = items.filter(

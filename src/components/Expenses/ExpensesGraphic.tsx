@@ -9,8 +9,13 @@ import {
   LinearScale,
 } from "chart.js";
 import { useEffect, useState } from "react";
-import { ExpensesCategoryButtons, noResultsData } from "../../services/const";
+import {
+  ExpensesCategoryButtons,
+  GRAPHIC_BAR_DATA,
+  GRAPHIC_OPTIONS,
+} from "../../services/const";
 import { StructureType } from "../../services/types";
+import { useMobile } from "../../hooks/useMobile";
 
 ChartJS.register(
   ArcElement,
@@ -33,7 +38,8 @@ function ExpensesGraphinc({
   const [education, setEducation] = useState(0);
   const [gifts, setGifts] = useState(0);
   const [groceries, setGroceries] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+
+  const isMobile = useMobile();
 
   useEffect(() => {
     const healthExpenses = filteredExpenses.filter(
@@ -75,19 +81,6 @@ function ExpensesGraphinc({
     );
   }, [filteredExpenses]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   const withResultsData = {
     labels: ExpensesCategoryButtons.map((expense) => expense.text),
     datasets: [
@@ -108,48 +101,6 @@ function ExpensesGraphinc({
     ],
   };
 
-  const options = {
-    cutout: "50%",
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "bottom",
-        align: "start",
-        maxHeight: 100,
-        labels: {
-          usePointStyle: true,
-          pointStyle: "circle",
-        },
-      },
-    },
-    hover: {
-      mode: null,
-    },
-  };
-
-  const barOptions = {
-    type: "bar",
-    indexAxis: "x",
-    scales: {
-      x: {
-        beginAtZero: true,
-      },
-      y: {
-        ticks: {
-          autoSkip: true,
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    hover: {
-      mode: null,
-    },
-  };
-
   const allZero = withResultsData.datasets[0].data.every(
     (value) => value === 0,
   );
@@ -157,15 +108,15 @@ function ExpensesGraphinc({
   return (
     <div className="relative flex h-full w-full items-center justify-center p-5">
       {allZero ? (
-        <Doughnut data={noResultsData} options={options} />
+        <p className="font-semibold text-[#2b3f55]">No data available</p>
       ) : isMobile ? (
         <Doughnut
           data={withResultsData}
-          options={options}
+          options={GRAPHIC_OPTIONS}
           style={{ height: "80%", width: "80%" }}
         />
       ) : (
-        <Bar data={withResultsData} options={barOptions} />
+        <Bar data={withResultsData} options={GRAPHIC_BAR_DATA} />
       )}
     </div>
   );

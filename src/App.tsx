@@ -15,7 +15,6 @@ function App() {
           <Router>
             <section className="flex flex-col md:flex-row">
               <NavBar />
-           
               <Routes>
                 <Route path="/" element={<Balance />} />
                 <Route path="/expenses" element={<Expenses />} />

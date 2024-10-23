@@ -49,7 +49,7 @@ function Balance() {
           </div>
         </GraphicBox>
 
-        <section className="flex h-80 rounded-xl bg-component-color md:h-[41.75%]">
+        <section className="flex h-80 rounded-xl bg-component-color md:h-[41.75%] md:min-h-[41.75%]">
           <TimeGraphic filteredItems={filteredBalance} />
         </section>
       </div>

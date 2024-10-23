@@ -22,21 +22,47 @@ Chart.register(
   Legend,
 );
 
+type TimeGraphicStructure = {
+  amount: number | string;
+  date: string;
+  type: string;
+};
+
 export function TimeGraphic({
   filteredItems,
 }: {
   filteredItems: StructureType[];
 }) {
-  const sortedExpenses = filteredItems.sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  const sortedItems: StructureType[] = filteredItems.sort((a, b) => {
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
+  });
+
+  // Reduce the itmes by the time and sum the amount
+  const reduceItems: TimeGraphicStructure[] = Object.values(
+    sortedItems.reduce(
+      (
+        acc: { [key: string]: TimeGraphicStructure },
+        curr: TimeGraphicStructure,
+      ) => {
+        const date = curr.date.split("T")[0];
+
+        if (!acc[date]) {
+          acc[date] = { amount: 0, type: curr.type, date: date };
+        }
+
+        (acc[date].amount as number) += Number(curr.amount);
+        return acc;
+      },
+      {},
+    ),
   );
 
   const lineChartData = {
-    labels: sortedExpenses.map((item) => new Date(item.date)), // Convertir a Date si es necesario
+    labels: reduceItems.map((item) => item.date),
     datasets: [
       {
         label: "Time Series Data",
-        data: sortedExpenses.map((item) => item.amount),
+        data: reduceItems.map((item) => item.amount),
         borderColor: "#3A86FF",
         backgroundColor: "#3A86FF",
         tension: 0.1,
@@ -49,23 +75,30 @@ export function TimeGraphic({
       x: {
         type: "time",
         time: {
-          unit: "day", // Ajusta la unidad de tiempo
+          unit: "day",
         },
       },
       y: {
-        beginAtZero: true, // Comienza en 0 en el eje Y
+        beginAtZero: true,
       },
     },
     plugins: {
       legend: {
-        display: false, // Oculta la leyenda si no es necesaria
+        display: false,
       },
     },
   };
 
   return (
-    <div className="relative flex h-full w-full items-center justify-center p-3 sm:h-64 sm:w-64 md:p-0 lg:h-full lg:w-full">
-      <Line data={lineChartData} options={lineChartOptions} />
+    <div className="relative flex h-full w-full items-center justify-center p-3">
+      {sortedItems.length === 0 ? (
+        <p className="font-semibold text-[#2b3f55]">No data available</p>
+      ) : reduceItems.length >= 3 ? (
+        // @ts-expect-error ts(2322)
+        <Line data={lineChartData} options={lineChartOptions} />
+      ) : (
+        <p className="font-semibold text-[#2b3f55]">No enaugh data</p>
+      )}
     </div>
   );
 }

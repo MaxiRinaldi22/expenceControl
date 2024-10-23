@@ -1,3 +1,5 @@
+
+// Buttons
 export const InconmeCategoryButtons = [
   {
     id: 1,
@@ -69,13 +71,38 @@ export const ExpensesCategoryButtons = [
   },
 ];
 
-export const noResultsData = {
-  labels: [],
-  datasets: [
-    {
-      data: [1],
-      backgroundColor: ["#20262E"],
-      borderWidth: 0,
+
+// Graphic
+
+export const GRAPHIC_OPTIONS = {
+  cutout: "50%",
+  responsive: true,
+  plugins: {
+    legend: {
+      labels: {
+        usePointStyle: true,
+        pointStyle: "circle",
+      },
     },
-  ],
+  },
 };
+
+export const GRAPHIC_BAR_DATA = {
+  type: "bar",
+  scales: {
+    x: {
+      beginAtZero: true,
+    },
+    y: {
+      ticks: {
+        autoSkip: true,
+      },
+    },
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+};
+

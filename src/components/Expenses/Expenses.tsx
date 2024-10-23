@@ -11,23 +11,21 @@ import {
   Leisure,
 } from "../icons";
 import useExpensesContext from "../../hooks/useExpensesContext";
-import { StructureType } from "../../services/types";
+import { dates, StructureType } from "../../services/types";
 import { useDateFilter } from "../../hooks/useDateFilter";
 import { GraphicBox } from "../ui/GraphicBox";
 import { ServiceCard } from "../ui/ServiceCard";
-// import { HeaderTotalValue } from "../ui/HeaderTotalValue";
 import { TimeNavbar } from "../ui/TimeNavBar";
 import { OpenButton } from "../ui/OpenButton";
 import { List } from "../ui/List";
 import { HeaderTotalsValues } from "../ui/HeaderTotalsValues";
 import { TimeGraphic } from "../ui/TimeGraphic";
+import { ListEskeleton } from "../ui/ListEskeleton";
 
 function Expenses() {
   const { expenses } = useExpensesContext();
   const [open, setOpen] = useState(false);
-  const [dateNav, setDateNav] = useState<"day" | "week" | "month" | "year">(
-    "week",
-  );
+  const [dateNav, setDateNav] = useState<dates>("week");
 
   const filteredExpenses: StructureType[] = useDateFilter({
     items: expenses,
@@ -49,8 +47,8 @@ function Expenses() {
           </div>
         </GraphicBox>
 
-        <section className="flex h-80 rounded-xl bg-component-color md:h-[41.75%]">
-          <TimeGraphic  filteredItems={filteredExpenses}/>
+        <section className="flex h-80 rounded-xl bg-component-color md:h-[41.75%] md:min-h-[41.75%]">
+          <TimeGraphic filteredItems={filteredExpenses} />
         </section>
       </div>
 
@@ -58,29 +56,33 @@ function Expenses() {
         <div className="hidden md:block">
           <TimeNavbar setDateNav={setDateNav} dateNav={dateNav} />
         </div>
-      
-        <List>
-          {filteredExpenses.map((exp: StructureType, id: number) => (
-            <ServiceCard key={id} id={id} color={exp.backgroundColor}>
-              <div className="flex items-center justify-center gap-3">
-                <div
-                  style={{ background: exp.backgroundColor }}
-                  className="rounded-full p-1"
-                >
-                  {exp.category === "Health" && <Helath width={22} />}
-                  {exp.category === "Leisure" && <Leisure width={22} />}
-                  {exp.category === "Home" && <Home width={22} />}
-                  {exp.category === "Cafe" && <Cafe width={22} />}
-                  {exp.category === "Education" && <Education width={22} />}
-                  {exp.category === "Gifts" && <Gift width={22} />}
-                  {exp.category === "Groceries" && <Groceries width={22} />}
+
+        {filteredExpenses.length > 0 ? (
+          <List>
+            {filteredExpenses.map((exp: StructureType, id: number) => (
+              <ServiceCard key={id} id={id} color={exp.backgroundColor}>
+                <div className="flex items-center justify-center gap-3">
+                  <div
+                    style={{ background: exp.backgroundColor }}
+                    className="rounded-full p-1"
+                  >
+                    {exp.category === "Health" && <Helath width={22} />}
+                    {exp.category === "Leisure" && <Leisure width={22} />}
+                    {exp.category === "Home" && <Home width={22} />}
+                    {exp.category === "Cafe" && <Cafe width={22} />}
+                    {exp.category === "Education" && <Education width={22} />}
+                    {exp.category === "Gifts" && <Gift width={22} />}
+                    {exp.category === "Groceries" && <Groceries width={22} />}
+                  </div>
+                  <p className="text-base font-[400]">{exp.category}</p>
                 </div>
-                <p className="text-base font-[400]">{exp.category}</p>
-              </div>
-              <p className="text-base font-[500]">${exp.amount}</p>
-            </ServiceCard>
-          ))}
-        </List>
+                <p className="text-base font-[500]">${exp.amount}</p>
+              </ServiceCard>
+            ))}
+          </List>
+        ) : (
+          <ListEskeleton />
+        )}
         <OpenButton setOpen={setOpen} text="EXPENSE" />
       </div>
       {open && <AddExpenses setOpen={setOpen} />}
@@ -89,5 +91,3 @@ function Expenses() {
 }
 
 export default Expenses;
-
-

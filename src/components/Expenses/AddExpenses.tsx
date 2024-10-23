@@ -15,7 +15,6 @@ import useBalanceContext from "../../hooks/useBalanceContext";
 import { SelectDate } from "../ui/SelectDate";
 import { AddInput } from "../ui/AddInput";
 import { BackArrow } from "../ui/BackArrow";
-import { HeaderTotalValue } from "../ui/HeaderTotalValue";
 
 export function AddExpenses({
   setOpen,
@@ -24,7 +23,6 @@ export function AddExpenses({
 }) {
   const { balance, setBalance } = useBalanceContext();
   const { expenses, setExpenses } = useExpensesContext();
-
   const [amount, setAmount] = useState<number | string>(0);
   const [category, setCategory] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("");

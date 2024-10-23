@@ -17,10 +17,10 @@ function InconmeContextProvider({ children }: { children: React.ReactNode }) {
     0,
   );
 
-
   return (
-    <InconmeContext.Provider value={{ inconmes, setInconmes, totalInconmeValue }}>
-
+    <InconmeContext.Provider
+      value={{ inconmes, setInconmes, totalInconmeValue }}
+    >
       {children}
     </InconmeContext.Provider>
   );

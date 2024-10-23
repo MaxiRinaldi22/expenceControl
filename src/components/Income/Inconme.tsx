@@ -3,11 +3,10 @@ import { Bank, Bonus, Gift, HandCoin, Investemnt, Question } from "../icons";
 import IncomeGraphic from "./InconmeGraphic";
 import AddIncome from "./AddInconme";
 import useInconmeContext from "../../hooks/useInconmeContext";
-import { StructureType } from "../../services/types";
+import { dates, StructureType } from "../../services/types";
 import { useDateFilter } from "../../hooks/useDateFilter";
 import { GraphicBox } from "../ui/GraphicBox";
 import { ServiceCard } from "../ui/ServiceCard";
-import { HeaderTotalValue } from "../ui/HeaderTotalValue";
 import { TimeNavbar } from "../ui/TimeNavBar";
 import { OpenButton } from "../ui/OpenButton";
 import { HeaderTotalsValues } from "../ui/HeaderTotalsValues";
@@ -17,9 +16,7 @@ import { List } from "../ui/List";
 function Income() {
   const { inconmes } = useInconmeContext();
   const [open, setOpen] = useState(false);
-  const [dateNav, setDateNav] = useState<"day" | "week" | "month" | "year">(
-    "week",
-  );
+  const [dateNav, setDateNav] = useState<dates>("week");
 
   const filteredInconmes: StructureType[] = useDateFilter({
     items: inconmes,
@@ -41,7 +38,7 @@ function Income() {
           </div>
         </GraphicBox>
 
-        <section className="flex h-80 rounded-xl bg-component-color md:h-[41.75%]">
+        <section className="flex h-80 rounded-xl bg-component-color md:h-[41.75%] md:min-h-[41.75%]">
           <TimeGraphic filteredItems={filteredInconmes} />
         </section>
       </div>

@@ -9,8 +9,13 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
-import { InconmeCategoryButtons, noResultsData } from "../../services/const";
+import {
+  GRAPHIC_BAR_DATA,
+  GRAPHIC_OPTIONS,
+  InconmeCategoryButtons,
+} from "../../services/const";
 import { StructureType } from "../../services/types";
+import { useMobile } from "../../hooks/useMobile";
 
 ChartJS.register(
   ArcElement,
@@ -32,13 +37,8 @@ function IncomeGraphic({
   const [other, setOther] = useState(0);
   const [investemnt, setInvestemnt] = useState(0);
   const [bonus, setBonus] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  const totalInconmeValue = filteredInconmes.reduce(
-    (acc, curr) => acc + Number(curr.amount),
-    0,
-  );
-
+  const isMobile = useMobile();
+  
   useEffect(() => {
     const paycheckExpenses = filteredInconmes.filter(
       (inconme) => inconme.category === "Paycheck",
@@ -73,20 +73,6 @@ function IncomeGraphic({
     setOther(otherExpenses.reduce((acc, curr) => acc + Number(curr.amount), 0));
   }, [filteredInconmes]);
 
-  // -> USE EFFECT REPETIDO (UNIR A UNO SOLO PARA USAR EN TODOS LOS GRAFICOS)
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   const withResultsData = {
     labels: InconmeCategoryButtons.map((inconme) => inconme.text),
     datasets: [
@@ -105,49 +91,6 @@ function IncomeGraphic({
     ],
   };
 
-  const options = {
-    cutout: "50%",
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "bottom",
-        align: "start",
-        maxHeight: 100,
-        labels: {
-          usePointStyle: true,
-          pointStyle: "circle",
-        },
-      },
-    },
-    hover: {
-      mode: null,
-    },
-  };
-
-  // -> REPETIDO 
-  const barOptions = {
-    type: "bar",
-    indexAxis: "x",
-    scales: {
-      x: {
-        beginAtZero: true,
-      },
-      y: {
-        ticks: {
-          autoSkip: true,
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    hover: {
-      mode: null,
-    },
-  };
-
   const allZero = withResultsData.datasets[0].data.every(
     (value) => value === 0,
   );
@@ -155,15 +98,15 @@ function IncomeGraphic({
   return (
     <div className="relative flex h-full w-full items-center justify-center p-5">
       {allZero ? (
-        <Doughnut data={noResultsData} options={options} />
+        <p className="font-semibold text-[#2b3f55]">No data available</p>
       ) : isMobile ? (
         <Doughnut
           data={withResultsData}
-          options={options}
+          options={GRAPHIC_OPTIONS}
           style={{ height: "80%", width: "80%" }}
         />
       ) : (
-        <Bar data={withResultsData} options={barOptions} />
+        <Bar data={withResultsData} options={GRAPHIC_BAR_DATA} />
       )}
     </div>
   );

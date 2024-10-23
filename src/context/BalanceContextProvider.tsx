@@ -11,13 +11,12 @@ function BalanceContextProvider({ children }: { children: React.ReactNode }) {
       ? JSON.parse(localStorage.getItem("balance") as string)
       : [],
   );
+  localStorage.setItem("balance", JSON.stringify(balance));
 
   const { totalInconmeValue } = useInconmeContext();
   const { totalExpensesValue } = useExpensesContext();
 
   const totalValue = totalInconmeValue - totalExpensesValue;
-
-  localStorage.setItem("balance", JSON.stringify(balance));
 
   return (
     <BalanceContext.Provider value={{ balance, setBalance, totalValue }}>
