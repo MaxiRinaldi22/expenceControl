@@ -1,8 +1,7 @@
-# TODO 
+# TODO
 
-- Agregar hora
 - Juntar comopnentes en mismos archivos de (ui) y crear mas para reutlizar codigo
-** Refactorizar el codigo.**
+  ** Refactorizar el codigo.**
 - Configurar las grafica de Dona para mobile
 
 - Las constantes de las graficas pueden ir en sola una constante
@@ -12,12 +11,10 @@
 - Revisar filtro de day
 - Si no hay mas de tres valores no carga la grafia ce time (y si el filtro es del dia tampoco carga)
 
-
-
 # ERRORES
 
 - No aparece el calendario en mobile
 - No carga el favicon
-
+- Cuando cambias de pagina y actualizas si esta subido no funcina
 
 TIENE QUE HABER UN VALOR SOLO POR DIA QUE SE VAYA SUMANDO EN COMPARACION A LAS EXPENCES || INCOME QUE LE ENTRAN

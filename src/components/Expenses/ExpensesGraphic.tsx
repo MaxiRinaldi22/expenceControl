@@ -82,7 +82,7 @@ function ExpensesGraphinc({
   }, [filteredExpenses]);
 
   const withResultsData = {
-    labels: ExpensesCategoryButtons.map((expense) => expense.text),
+    labels: [],
     datasets: [
       {
         data: [health, leisure, home, cafe, education, gifts, groceries],
@@ -113,7 +113,7 @@ function ExpensesGraphinc({
         <Doughnut
           data={withResultsData}
           options={GRAPHIC_OPTIONS}
-          style={{ height: "80%", width: "80%" }}
+          style={{ height: "60%", width: "60%" }}
         />
       ) : (
         <Bar data={withResultsData} options={GRAPHIC_BAR_DATA} />

@@ -74,7 +74,7 @@ function IncomeGraphic({
   }, [filteredInconmes]);
 
   const withResultsData = {
-    labels: InconmeCategoryButtons.map((inconme) => inconme.text),
+    labels: [],
     datasets: [
       {
         data: [paycheck, gift, interest, other, bonus, investemnt],
@@ -103,7 +103,7 @@ function IncomeGraphic({
         <Doughnut
           data={withResultsData}
           options={GRAPHIC_OPTIONS}
-          style={{ height: "80%", width: "80%" }}
+          style={{ height: "60%", width: "60%" }}
         />
       ) : (
         <Bar data={withResultsData} options={GRAPHIC_BAR_DATA} />

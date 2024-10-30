@@ -36,7 +36,7 @@ function BalanceGraphic({
   const isMobile = useMobile();
 
   const withResultsData = {
-    labels: [true, false],
+    labels: [],
     datasets: [
       {
         data: [totalInconmeValue, totalExpensesValue],
@@ -58,7 +58,7 @@ function BalanceGraphic({
         <Doughnut
           data={withResultsData}
           options={GRAPHIC_OPTIONS}
-          style={{ height: "80%", width: "80%" }}
+          style={{ height: "60%", width: "60%" }}
         />
       ) : (
         <Bar data={withResultsData} options={GRAPHIC_BAR_DATA} />
