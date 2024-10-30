@@ -9,11 +9,7 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
-import {
-  GRAPHIC_BAR_DATA,
-  GRAPHIC_OPTIONS,
-  InconmeCategoryButtons,
-} from "../../services/const";
+import { GRAPHIC_BAR_DATA, GRAPHIC_OPTIONS } from "../../services/const";
 import { StructureType } from "../../services/types";
 import { useMobile } from "../../hooks/useMobile";
 
@@ -38,7 +34,7 @@ function IncomeGraphic({
   const [investemnt, setInvestemnt] = useState(0);
   const [bonus, setBonus] = useState(0);
   const isMobile = useMobile();
-  
+
   useEffect(() => {
     const paycheckExpenses = filteredInconmes.filter(
       (inconme) => inconme.category === "Paycheck",

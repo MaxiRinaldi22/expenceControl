@@ -10,7 +10,6 @@ import {
 } from "chart.js";
 import { useEffect, useState } from "react";
 import {
-  ExpensesCategoryButtons,
   GRAPHIC_BAR_DATA,
   GRAPHIC_OPTIONS,
 } from "../../services/const";
